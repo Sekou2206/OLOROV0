@@ -17,7 +17,6 @@
             --hover-gold: #C5A059; 
             --font-serif: 'Playfair Display', serif; 
             --font-sans: 'Montserrat', sans-serif;
-            --spacing-mobile: 20px;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -27,7 +26,7 @@
             background-color: var(--bg-white);
             color: var(--text-black);
             -webkit-font-smoothing: antialiased;
-            overflow-x: hidden; /* Empêche le scroll horizontal latéral */
+            overflow-x: hidden;
         }
 
         a { text-decoration: none; color: inherit; transition: all 0.3s ease; }
@@ -36,7 +35,7 @@
 
         /* --- 1. NAVIGATION --- */
         nav {
-            position: sticky; top: 0; width: 100%; height: 70px; /* Réduit height sur mobile */
+            position: fixed; top: 0; width: 100%; height: 70px; /* Taille réduite mobile */
             background-color: var(--bg-white); z-index: 1000;
             box-shadow: 0 4px 20px rgba(0,0,0,0.03);
             display: flex; align-items: center; justify-content: center;
@@ -51,7 +50,7 @@
         .nav-left, .nav-right { display: flex; gap: 2.5rem; align-items: center; }
         .nav-center { position: absolute; left: 50%; transform: translateX(-50%); }
 
-        .logo { display: block; height: 40px; width: auto; } /* Logo un peu plus petit sur mobile */
+        .logo { display: block; height: 40px; width: auto; }
         .logo img { height: 100%; width: auto; display: block; object-fit: contain; }
 
         .nav-link {
@@ -67,52 +66,28 @@
         .icon-btn { 
             display: flex; align-items: center; justify-content: center; 
             color: var(--text-black); transition: color 0.3s; 
-            padding: 8px; /* Zone de clic plus grande pour tactile */
-            margin: -8px; /* Compensation du padding */
+            padding: 8px; margin: -8px; /* Zone de clic tactile */
         }
         .icon-btn:hover { color: var(--text-grey); }
         svg { width: 20px; height: 20px; stroke-width: 1.5; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; }
 
         .cart-badge { position: relative; }
         .cart-count {
-            position: absolute; top: -5px; right: -5px; /* Ajusté pour ne pas être trop haut */
+            position: absolute; top: -5px; right: -5px;
             background: var(--text-black); color: white;
             font-size: 0.6rem; width: 18px; height: 18px;
             border-radius: 50%; display: flex; align-items: center; justify-content: center;
         }
 
-        /* --- MOBILE MENU OVERLAY --- */
-        #mobile-menu-overlay {
-            position: fixed; inset: 0; background: white; z-index: 999;
-            transform: translateY(-100%);
-            transition: transform 0.4s cubic-bezier(0.77, 0, 0.175, 1);
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            padding: 2rem;
-        }
-        #mobile-menu-overlay.active { transform: translateY(0); }
-        
-        .mobile-nav-link {
-            font-family: var(--font-serif); font-size: 2rem; margin: 1.5rem 0;
-            color: var(--text-black); opacity: 0; transform: translateY(20px);
-            transition: all 0.4s ease;
-        }
-        #mobile-menu-overlay.active .mobile-nav-link {
-            opacity: 1; transform: translateY(0);
-        }
-        
-        .mobile-close-btn {
-            position: absolute; top: 30px; right: 30px;
-            padding: 10px; font-size: 2rem; color: var(--text-black);
-        }
-
-        .mobile-menu-btn { display: none; z-index: 1001; }
+        .mobile-menu-btn { display: none; }
+        .desktop-only { display: flex; } /* Visible par défaut */
 
         /* --- 2. CONTENU BOUTIQUE --- */
         .collection-header {
-            padding: 4rem 5% 2rem; max-width: 1400px; margin: 0 auto; text-align: center;
+            padding: 5rem 5% 2rem; max-width: 1400px; margin: 0 auto; text-align: center;
         }
         .collection-header h1 {
-            font-family: var(--font-serif); font-size: 2.5rem; font-weight: 400; /* Taille réduite mobile */
+            font-family: var(--font-serif); font-size: 2.5rem; font-weight: 400;
             margin-bottom: 1rem; letter-spacing: -1px;
         }
         .collection-header p {
@@ -156,9 +131,7 @@
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-color: var(--bg-white); 
             z-index: 2000;
-            display: none; 
-            opacity: 0; 
-            transition: opacity 0.3s ease;
+            display: none; opacity: 0; transition: opacity 0.3s ease;
             overflow-y: auto; /* Scroll interne sur mobile */
         }
         #detail-view.active { display: block; opacity: 1; }
@@ -179,7 +152,7 @@
         .detail-image-col img { width: 100%; height: auto; display: block; }
 
         .detail-info-col {
-            position: sticky; top: 100px; /* Sticky desktop */
+            position: sticky; top: 100px;
             padding-top: 1rem;
         }
 
@@ -205,7 +178,7 @@
 
         /* --- 4. PANIER --- */
         #cart-sidebar {
-            position: fixed; top: 0; right: -100%; width: 100%; max-width: 450px; /* Mobile: 100%, Desktop: max 450 */
+            position: fixed; top: 0; right: -100%; width: 100%; max-width: 450px;
             height: 100%;
             background: white; z-index: 3000; box-shadow: -5px 0 30px rgba(0,0,0,0.1);
             transition: right 0.4s cubic-bezier(0.19, 1, 0.22, 1);
@@ -229,7 +202,7 @@
             font-size: 0.8rem; cursor: pointer;
         }
 
-        /* --- 5. MODALS (Recherche & Compte) --- */
+        /* --- 5. MODALS --- */
         .half-screen-modal {
             position: fixed; top: 50%; left: 50%;
             transform: translate(-50%, -50%) scale(0.95);
@@ -280,23 +253,27 @@
             .detail-title { font-size: 2rem; }
         }
 
-        /* PETIT MOBILE (Max 600px) */
+        /* PETIT MOBILE (Max 600px) - LOGIQUE INDEX APPLIQUÉE ICI */
         @media (max-width: 600px) {
             :root { --spacing-mobile: 15px; }
             
-            .nav-left, .nav-right { display: none; } 
-            .mobile-menu-btn { display: block; }
+            /* Cache les éléments "Desktop only" (Homme, Compte) */
+            .desktop-only { display: none !important; }
+            
+            /* Cache le bouton menu hamburger car inutile */
+            .mobile-menu-btn { display: none !important; }
+            
+            /* Réduit les écarts pour faire rentrer Accueil / Logo / Loupe / Panier */
+            .nav-left, .nav-right { display: flex; gap: 1rem; }
+            
             .nav-center { position: static; transform: none; }
             .nav-container { justify-content: space-between; }
-            
-            /* Menu Overlay */
-            #mobile-menu-overlay { z-index: 2000; }
             
             /* Grid: 1 colonne */
             .product-grid { grid-template-columns: 1fr; }
             
             .collection-header h1 { font-size: 2rem; }
-            .collection-header { padding-top: 2rem; }
+            .collection-header { padding-top: 3rem; }
 
             .half-screen-modal { width: 95%; height: 85vh; }
             .search-input { font-size: 1.2rem; }
@@ -311,10 +288,11 @@
             .back-btn { top: auto; bottom: 20px; left: 20px; padding: 10px 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.2); }
         }
 
-        /* TRÈS PETITS ÉCRANS (ex: iPhone SE) */
+        /* TRÈS PETITS ÉCRANS */
         @media (max-width: 380px) {
             .detail-title { font-size: 1.8rem; }
             .card-title { font-size: 1.1rem; }
+            .nav-link { font-size: 0.65rem; } /* Police un peu plus petite si écran très exigu */
         }
     </style>
 </head>
@@ -323,27 +301,26 @@
     <!-- NAVIGATION -->
     <nav>
         <div class="nav-container">
-            <!-- Liens Desktop (Cachés sur mobile) -->
+            <!-- GAUCHE : Accueil (Visible) & Homme (Caché mobile) -->
             <div class="nav-left">
                 <a href="index.html" class="nav-link">Accueil</a>
-                <a href="#hommes" class="nav-link" onclick="alert('Filtrer Homme (Simulation)')">Homme</a>
+                <a href="#hommes" class="nav-link desktop-only" onclick="alert('Filtrer Homme (Simulation)')">Homme</a>
             </div>
 
-            <!-- Logo -->
+            <!-- CENTRE : Logo -->
             <div class="nav-center">
                 <a href="index.html" class="logo">
-                    <!-- Utilisation d'un placeholder si l'image locale ne charge pas -->
                     <img src="IMG_3570.PNG" onerror="this.src='https://placehold.co/150x50/111/FFF?text=OLORO&font=playfair'" alt="Logo Oloro">
                 </a>
             </div>
 
-            <!-- Icônes Droite -->
+            <!-- DROITE : Loupe & Compte & Panier -->
             <div class="nav-right">
                 <button class="icon-btn" onclick="openSearch()" aria-label="Recherche">
                     <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
                 </button>
 
-                <button class="icon-btn" onclick="openAccount()" aria-label="Compte">
+                <button class="icon-btn desktop-only" onclick="openAccount()" aria-label="Compte">
                     <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
                 </button>
 
@@ -352,22 +329,13 @@
                     <span class="cart-count" id="cart-count">0</span>
                 </button>
 
-                <!-- Bouton Menu Mobile (Visible uniquement sur mobile) -->
-                <button class="icon-btn mobile-menu-btn" onclick="toggleMobileMenu()" aria-label="Menu">
+                <!-- Bouton hamburger inutile, caché via CSS -->
+                <button class="mobile-menu-btn">
                     <svg viewBox="0 0 24 24"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
                 </button>
             </div>
         </div>
     </nav>
-
-    <!-- MENU MOBILE OVERLAY -->
-    <div id="mobile-menu-overlay">
-        <button class="mobile-close-btn" onclick="toggleMobileMenu()">✕</button>
-        <a href="index.html" class="mobile-nav-link" onclick="toggleMobileMenu()">Accueil</a>
-        <a href="#hommes" class="mobile-nav-link" onclick="alert('Homme'); toggleMobileMenu()">Collection Homme</a>
-        <a href="#" class="mobile-nav-link" onclick="openSearch(); toggleMobileMenu()">Recherche</a>
-        <a href="#" class="mobile-nav-link" onclick="openAccount(); toggleMobileMenu()">Mon Compte</a>
-    </div>
 
     <!-- HEADER -->
     <header class="collection-header">
@@ -482,7 +450,7 @@
             { id: 1, name: "The Golden Hour", category: "Sandales Compensées", price: 245, img: "IMG_3576.PNG", color: "gold", desc: "Une pièce maîtresse dorée pour sublimer vos soirées d'été. Cuir verni premium." },
             { id: 2, name: "Nomad Spirit", category: "Sandales Plates", price: 195, img: "IMG_3577.PNG", color: "cream", desc: "L'essence du voyage. Confort absolu pour une journée de marche." },
             { id: 3, name: "Midnight Silk", category: "Sandales Brides", price: 320, img: "IMG_3578.PNG", color: "black", desc: "L'élégance nocturne. Soie noire et finitions dorées discrètes." },
-           
+            { id: 4, name: "Azure Dream", category: "Sandales Plates", price: 180, img: "IMG_3579.PNG", color: "blue", desc: "Une touche de couleur méditerranéenne." },
         ];
 
         let cart = [];
@@ -514,23 +482,11 @@
         }
         renderProducts(); 
 
-        // --- MOBILE MENU ---
-        function toggleMobileMenu() {
-            const menu = document.getElementById('mobile-menu-overlay');
-            menu.classList.toggle('active');
-            if(menu.classList.contains('active')) {
-                document.body.style.overflow = 'hidden';
-            } else {
-                document.body.style.overflow = 'auto';
-            }
-        }
-
         // --- LOGIQUE DÉTAIL ---
         function openDetail(id) {
             currentProduct = products.find(p => p.id === id);
             selectedSize = null;
             document.getElementById('detail-img').src = currentProduct.img;
-            // Fallback image si erreur
             document.getElementById('detail-img').onerror = function() { this.src='https://picsum.photos/seed/'+currentProduct.id+'/800/1000'; };
             
             document.getElementById('detail-title').innerText = currentProduct.name;
@@ -539,7 +495,7 @@
             
             const sizeGrid = document.getElementById('size-grid');
             sizeGrid.innerHTML = '';
-            for(let i=36; i<=50; i+=2) { // Pas de 2 pour simplifier sur mobile
+            for(let i=36; i<=50; i+=2) {
                 const btn = document.createElement('div');
                 btn.className = 'size-btn'; btn.innerText = i;
                 btn.onclick = () => selectSize(i, btn);
@@ -562,7 +518,6 @@
 
         function addToCartFromDetail() {
             if(!selectedSize) { 
-                // Simple animation d'erreur au lieu d'un alert
                 const btn = document.querySelector('.add-to-cart-btn');
                 const originalText = btn.innerText;
                 btn.innerText = "Choisissez une taille !";
@@ -633,7 +588,6 @@
             document.body.style.overflow = 'auto';
         }
 
-        // Fermer les modals si on clique sur l'overlay (fond sombre)
         window.onclick = function(event) {
             if (event.target.classList.contains('cart-overlay')) {
                 toggleCart();
