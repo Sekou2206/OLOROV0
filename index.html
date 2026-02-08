@@ -36,7 +36,7 @@
 
         /* --- 1. NAVIGATION --- */
         nav {
-            position: fixed; top: 0; width: 100%; height: 70px; /* Réduit sur mobile */
+            position: fixed; top: 0; width: 100%; height: 70px;
             background-color: var(--bg-white); z-index: 1000;
             box-shadow: 0 4px 20px rgba(0,0,0,0.03);
             display: flex; align-items: center; justify-content: center;
@@ -52,7 +52,7 @@
         .nav-left, .nav-right { display: flex; gap: 2.5rem; align-items: center; }
         .nav-center { position: absolute; left: 50%; transform: translateX(-50%); }
 
-        .logo { display: block; height: 45px; width: auto; } /* Logo légèrement plus petit mobile */
+        .logo { display: block; height: 45px; width: auto; }
         .logo img { height: 100%; width: auto; display: block; object-fit: contain; }
 
         .nav-link {
@@ -69,34 +69,21 @@
         .icon-btn:hover { color: var(--text-grey); }
         svg { width: 20px; height: 20px; stroke-width: 1.5; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; }
 
-        .mobile-menu-btn { display: none; z-index: 1001; }
+        .cart-badge { position: relative; }
+        .cart-count {
+            position: absolute; top: -5px; right: -5px;
+            background: var(--text-black); color: white;
+            font-size: 0.6rem; width: 16px; height: 16px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+        }
 
-        /* --- MOBILE MENU OVERLAY (NOUVEAU) --- */
-        #mobile-menu-overlay {
-            position: fixed; inset: 0; background: white; z-index: 999;
-            transform: translateY(-100%);
-            transition: transform 0.4s cubic-bezier(0.77, 0, 0.175, 1);
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            padding: 2rem;
-        }
-        #mobile-menu-overlay.active { transform: translateY(0); }
-        
-        .mobile-nav-link {
-            font-family: var(--font-serif); font-size: 2.2rem; margin: 1.2rem 0;
-            color: var(--text-black); opacity: 0; transform: translateY(20px);
-            transition: all 0.4s ease;
-        }
-        #mobile-menu-overlay.active .mobile-nav-link { opacity: 1; transform: translateY(0); }
-        
-        .mobile-close-btn {
-            position: absolute; top: 25px; right: 25px;
-            padding: 10px; font-size: 2rem; color: var(--text-black);
-            line-height: 1;
-        }
+        /* Classe utilitaire pour masquer sur mobile */
+        .desktop-only { display: flex; } /* Visible par défaut */
+        .mobile-menu-btn { display: none; } /* Caché par défaut */
 
         /* --- 2. HERO SECTION --- */
         .hero {
-            height: 90vh; /* Sur mobile, 90vh est parfait */
+            height: 90vh;
             width: 100%; position: relative;
             display: flex; align-items: center; justify-content: center;
             text-align: center; overflow: hidden;
@@ -105,15 +92,13 @@
         }
 
         .hero::after {
-            content: "";
-            position: absolute;
-            bottom: 0; left: 0; width: 100%; height: 15vh;
+            content: ""; position: absolute; bottom: 0; left: 0; width: 100%; height: 15vh;
             background: linear-gradient(to bottom, rgba(255,255,255,0) 0%, var(--bg-white) 80%, var(--bg-white) 100%);
             z-index: 2; pointer-events: none;
         }
         .hero::before {
             content: ''; position: absolute; inset: 0;
-            background: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.2)); /* Assombri un peu sur mobile pour lisibilité texte */
+            background: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.2));
             z-index: 1;
         }
 
@@ -138,7 +123,6 @@
             transition: all 0.4s ease; backdrop-filter: blur(5px);
             animation: fadeUp 1.2s ease-out 0.4s backwards;
         }
-        .hero-btn:active { transform: scale(0.95); } /* Feedback tactile */
         .hero-btn:hover { background: white; color: var(--text-black); }
 
         @keyframes fadeUp {
@@ -149,7 +133,7 @@
         /* --- 3. SECTION ÉDITORIALE --- */
         .editorial {
             padding: 6rem 10%; text-align: center; background: var(--bg-white);
-            position: relative; z-index: 4; margin-top: -8vh; /* Plus agressif sur desktop */
+            position: relative; z-index: 4; margin-top: -8vh;
         }
         .editorial h2 {
             font-family: var(--font-serif); font-size: 2.5rem; font-weight: 400;
@@ -211,19 +195,26 @@
 
         /* --- RESPONSIVE MEDIA QUERIES --- */
         @media (max-width: 768px) {
-            .nav-left, .nav-right { display: none; } 
-            .mobile-menu-btn { display: block; }
-            .nav-center { position: static; transform: none; }
-            .nav-container { justify-content: space-between; }
+            /* Masquer les éléments marqués .desktop-only */
+            .desktop-only { display: none !important; }
+            
+            /* Cacher le bouton hamburger car on ne l'utilise plus */
+            .mobile-menu-btn { display: none !important; }
 
-            .hero-title { font-size: 2.8rem; } /* Titre plus petit sur mobile */
-            .hero-subtitle { font-size: 0.75rem; letter-spacing: 2px; } /* Espacement réduit */
+            /* Réduire les écarts dans la nav pour faire tenir le tout */
+            .nav-left, .nav-right { gap: 1rem; }
+            
+            /* S'assurer que le texte "Accueil" reste bien lisible */
+            .nav-link { font-size: 0.7rem; }
+
+            .hero-title { font-size: 2.8rem; } 
+            .hero-subtitle { font-size: 0.75rem; letter-spacing: 2px; } 
             
             .editorial { padding: 4rem 5%; margin-top: -5vh; }
             .editorial h2 { font-size: 2rem; }
             
             .teaser { padding: 4rem 5%; }
-            .circle-preview { width: 220px; height: 220px; } /* Cercle plus petit */
+            .circle-preview { width: 220px; height: 220px; } 
             
             .modal-content { padding: 1.5rem 5%; min-height: 70vh; }
             .main-input { font-size: 1.2rem; }
@@ -240,43 +231,43 @@
     <!-- NAVIGATION -->
     <nav>
         <div class="nav-container">
-            <!-- Liens Desktop -->
+            <!-- GAUCHE : Accueil (Visible mobile) & Femme (Caché mobile) -->
             <div class="nav-left">
                 <a href="index.html" class="nav-link">Accueil</a>
-                <a href="boutique.html" class="nav-link">Femme</a>
+                <a href="boutique.html" class="nav-link desktop-only">Femme</a>
             </div>
 
-            <!-- Logo -->
+            <!-- CENTRE : Logo -->
             <div class="nav-center">
                 <a href="index.html" class="logo">
-                    <!-- Fallback image -->
                     <img src="IMG_3570.PNG" onerror="this.src='https://placehold.co/150x50/111/FFF?text=OLORO&font=playfair'" alt="Logo Oloro">
                 </a>
             </div>
 
-            <!-- Icônes Droite -->
+            <!-- DROITE : Homme & Compte (Caché mobile) | Loupe & Panier (Visible mobile) -->
             <div class="nav-right">
-                <a href="boutique.html" class="nav-link">Homme</a>
+                <a href="boutique.html" class="nav-link desktop-only">Homme</a>
                 
                 <button class="icon-btn" onclick="openSearch()" aria-label="Recherche">
                     <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
                 </button>
+
+                <button class="icon-btn desktop-only" onclick="openAccount()" aria-label="Compte">
+                    <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                </button>
+
+                <button class="icon-btn cart-badge" onclick="toggleCart()" aria-label="Panier">
+                    <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+                    <span class="cart-count" id="cart-count">0</span>
+                </button>
                 
-                <button class="icon-btn mobile-menu-btn" onclick="toggleMobileMenu()" aria-label="Menu">
+                <!-- Bouton hamburger inutile maintenant, caché via CSS -->
+                <button class="mobile-menu-btn">
                     <svg viewBox="0 0 24 24"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
                 </button>
             </div>
         </div>
     </nav>
-
-    <!-- MENU MOBILE OVERLAY -->
-    <div id="mobile-menu-overlay">
-        <button class="mobile-close-btn" onclick="toggleMobileMenu()">✕</button>
-        <a href="index.html" class="mobile-nav-link" onclick="toggleMobileMenu()">Accueil</a>
-        <a href="boutique.html" class="mobile-nav-link" onclick="toggleMobileMenu()">Collection Femme</a>
-        <a href="boutique.html" class="mobile-nav-link" onclick="toggleMobileMenu()">Collection Homme</a>
-        <a href="#" onclick="openSearch(); toggleMobileMenu()" class="mobile-nav-link">Recherche</a>
-    </div>
 
     <!-- HERO SECTION -->
     <section class="hero">
@@ -306,6 +297,16 @@
     <!-- FOOTER -->
     <footer><p>&copy; 2026 OLORO. Tous droits réservés.</p></footer>
 
+    <!-- PANIER SIDEBAR (Simulé pour cohérence) -->
+    <div class="cart-overlay" id="cart-overlay" onclick="toggleCart()" style="position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:2999; opacity:0; pointer-events:none; transition:0.3s;"></div>
+    <aside id="cart-sidebar" style="position:fixed; top:0; right:-100%; width:100%; max-width:450px; height:100%; background:white; z-index:3000; transition:right 0.4s ease; padding:2rem;">
+        <div style="display:flex; justify-content:space-between; margin-bottom:2rem;">
+            <h3>Panier</h3>
+            <button onclick="toggleCart()">✕</button>
+        </div>
+        <p style="color:#999; text-align:center; margin-top:2rem;">Votre panier est vide.</p>
+    </aside>
+
     <!-- MODAL RECHERCHE -->
     <div id="search-modal" class="modal">
         <div class="modal-header">
@@ -325,7 +326,7 @@
         </div>
     </div>
 
-    <!-- MODAL COMPTE (Ajouté pour compléter la fonctionnalité) -->
+    <!-- MODAL COMPTE -->
     <div id="account-modal" class="modal">
         <div class="modal-header">
             <h3>Mon Compte</h3>
@@ -342,23 +343,23 @@
                 <input type="password" class="main-input" placeholder="••••••••">
             </div>
             <button style="width:100%; padding:1.2rem; background:#111; color:white; text-transform:uppercase; letter-spacing:2px; margin-top:1rem;">Connexion</button>
-            <p style="text-align:center; margin-top:2rem; color:#666; font-size:0.9rem;">
-                Pas encore de compte ? <a href="#" style="text-decoration:underline;">S'inscrire</a>
-            </p>
         </div>
     </div>
 
     <script>
-        // --- GESTION MOBILE MENU ---
-        function toggleMobileMenu() {
-            const menu = document.getElementById('mobile-menu-overlay');
-            menu.classList.toggle('active');
+        // --- GESTION PANIER SIMPLE ---
+        function toggleCart() {
+            const sidebar = document.getElementById('cart-sidebar');
+            const overlay = document.getElementById('cart-overlay');
             
-            // Gestion du scroll body
-            if(menu.classList.contains('active')) {
-                document.body.style.overflow = 'hidden';
+            if (sidebar.style.right === '0px') {
+                sidebar.style.right = '-100%';
+                overlay.style.opacity = '0';
+                overlay.style.pointerEvents = 'none';
             } else {
-                document.body.style.overflow = 'auto';
+                sidebar.style.right = '0px';
+                overlay.style.opacity = '1';
+                overlay.style.pointerEvents = 'all';
             }
         }
 
@@ -372,7 +373,6 @@
             document.body.style.overflow = 'auto';
         }
         
-        // Ajout de la fonction openAccount pour le bouton (si ajouté) ou usage futur
         function openAccount() {
             document.getElementById('account-modal').classList.add('open');
             document.body.style.overflow = 'hidden';
@@ -382,7 +382,7 @@
             document.body.style.overflow = 'auto';
         }
 
-        // Fermer modals en cliquant sur le fond blanc (facultatif, ici tout le fond est blanc, donc on clique souvent sur la croix)
+        // Fermer modals en cliquant sur le fond
         window.onclick = function(event) {
             if (event.target.classList.contains('modal') && event.target.classList.contains('open')) {
                 event.target.classList.remove('open');
