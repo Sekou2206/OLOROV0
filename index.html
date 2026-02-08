@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>OLORO | Maison de Couture</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,300;0,400;0,600;1,400&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-white: #FFFFFF;
+            --bg-cream: #FAFAFA;
+            --text-black: #111111;
+            --text-grey: #666666;
+            --gold-accent: #C5A059; 
+            --font-serif: 'Playfair Display', serif; 
+            --font-sans: 'Montserrat', sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--bg-white);
+            color: var(--text-black);
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        a { text-decoration: none; color: inherit; transition: all 0.3s ease; }
+        ul { list-style: none; }
+        button { border: none; background: none; cursor: pointer; outline: none; }
+
+        /* --- 1. NAVIGATION --- */
+        nav {
+            position: fixed; top: 0; width: 100%; height: 70px; /* Réduit sur mobile */
+            background-color: var(--bg-white); z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+            display: flex; align-items: center; justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .nav-container {
+            width: 90%; max-width: 1400px;
+            display: flex; justify-content: space-between; align-items: center;
+            position: relative;
+        }
+
+        .nav-left, .nav-right { display: flex; gap: 2.5rem; align-items: center; }
+        .nav-center { position: absolute; left: 50%; transform: translateX(-50%); }
+
+        .logo { display: block; height: 45px; width: auto; } /* Logo légèrement plus petit mobile */
+        .logo img { height: 100%; width: auto; display: block; object-fit: contain; }
+
+        .nav-link {
+            font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1.8px;
+            font-weight: 500; color: var(--text-black); position: relative; padding-bottom: 5px;
+        }
+        .nav-link::after {
+            content: ''; position: absolute; width: 0; height: 1px; bottom: 0; left: 0;
+            background-color: var(--text-black); transition: width 0.3s ease;
+        }
+        .nav-link:hover::after { width: 100%; }
+
+        .icon-btn { display: flex; align-items: center; justify-content: center; color: var(--text-black); transition: color 0.3s; padding: 8px; margin: -8px;}
+        .icon-btn:hover { color: var(--text-grey); }
+        svg { width: 20px; height: 20px; stroke-width: 1.5; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; }
+
+        .mobile-menu-btn { display: none; z-index: 1001; }
+
+        /* --- MOBILE MENU OVERLAY (NOUVEAU) --- */
+        #mobile-menu-overlay {
+            position: fixed; inset: 0; background: white; z-index: 999;
+            transform: translateY(-100%);
+            transition: transform 0.4s cubic-bezier(0.77, 0, 0.175, 1);
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            padding: 2rem;
+        }
+        #mobile-menu-overlay.active { transform: translateY(0); }
+        
+        .mobile-nav-link {
+            font-family: var(--font-serif); font-size: 2.2rem; margin: 1.2rem 0;
+            color: var(--text-black); opacity: 0; transform: translateY(20px);
+            transition: all 0.4s ease;
+        }
+        #mobile-menu-overlay.active .mobile-nav-link { opacity: 1; transform: translateY(0); }
+        
+        .mobile-close-btn {
+            position: absolute; top: 25px; right: 25px;
+            padding: 10px; font-size: 2rem; color: var(--text-black);
+            line-height: 1;
+        }
+
+        /* --- 2. HERO SECTION --- */
+        .hero {
+            height: 90vh; /* Sur mobile, 90vh est parfait */
+            width: 100%; position: relative;
+            display: flex; align-items: center; justify-content: center;
+            text-align: center; overflow: hidden;
+            background-image: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=2070&auto=format&fit=crop');
+            background-size: cover; background-position: center bottom;
+        }
+
+        .hero::after {
+            content: "";
+            position: absolute;
+            bottom: 0; left: 0; width: 100%; height: 15vh;
+            background: linear-gradient(to bottom, rgba(255,255,255,0) 0%, var(--bg-white) 80%, var(--bg-white) 100%);
+            z-index: 2; pointer-events: none;
+        }
+        .hero::before {
+            content: ''; position: absolute; inset: 0;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.2)); /* Assombri un peu sur mobile pour lisibilité texte */
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative; z-index: 3; color: white;
+            max-width: 800px; padding: 0 20px;
+        }
+        .hero-title {
+            font-family: var(--font-serif); font-size: 4rem; font-weight: 300; font-style: italic;
+            line-height: 1.1; margin-bottom: 1rem; 
+            text-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            animation: fadeUp 1.2s ease-out;
+        }
+        .hero-subtitle {
+            font-family: var(--font-sans); font-size: 0.9rem; letter-spacing: 3px;
+            text-transform: uppercase; font-weight: 300; margin-bottom: 2rem; opacity: 0.9;
+            animation: fadeUp 1.2s ease-out 0.2s backwards;
+        }
+        .hero-btn {
+            display: inline-block; padding: 1rem 2.5rem; border: 1px solid white; color: white;
+            text-transform: uppercase; letter-spacing: 2px; font-size: 0.8rem;
+            transition: all 0.4s ease; backdrop-filter: blur(5px);
+            animation: fadeUp 1.2s ease-out 0.4s backwards;
+        }
+        .hero-btn:active { transform: scale(0.95); } /* Feedback tactile */
+        .hero-btn:hover { background: white; color: var(--text-black); }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- 3. SECTION ÉDITORIALE --- */
+        .editorial {
+            padding: 6rem 10%; text-align: center; background: var(--bg-white);
+            position: relative; z-index: 4; margin-top: -8vh; /* Plus agressif sur desktop */
+        }
+        .editorial h2 {
+            font-family: var(--font-serif); font-size: 2.5rem; font-weight: 400;
+            margin-bottom: 1.5rem; color: var(--text-black);
+        }
+        .editorial p {
+            max-width: 700px; margin: 0 auto; line-height: 1.8;
+            color: var(--text-grey); font-size: 1rem;
+        }
+
+        /* --- 4. TEASER --- */
+        .teaser {
+            padding: 6rem 5%; background-color: var(--bg-cream);
+            display: flex; flex-direction: column; align-items: center; text-align: center;
+        }
+        .circle-preview {
+            width: 280px; height: 280px; border-radius: 50%; overflow: hidden;
+            margin-bottom: 2.5rem; box-shadow: 0 20px 50px rgba(0,0,0,0.08);
+            transition: transform 0.6s ease; border: 2px solid white;
+        }
+        .circle-preview:hover { transform: scale(1.05); }
+        .circle-preview img { width: 100%; height: 100%; object-fit: cover; }
+        
+        .teaser h3 { font-family: var(--font-serif); font-size: 2rem; margin-bottom: 0.8rem; font-style: italic; }
+        .teaser p { color: var(--text-grey); margin-bottom: 2rem; max-width: 500px; font-size: 0.95rem; }
+        
+        .shop-link {
+            padding: 1rem 2.5rem; background-color: var(--text-black); color: white;
+            text-transform: uppercase; letter-spacing: 2px; font-size: 0.85rem;
+            font-weight: 500; transition: background 0.3s ease; display: inline-block;
+        }
+        .shop-link:hover { background-color: var(--gold-accent); }
+
+        /* --- FOOTER --- */
+        footer { padding: 2rem; text-align: center; border-top: 1px solid #f0f0f0; color: #999; font-size: 0.75rem; letter-spacing: 1px; }
+
+        /* --- MODALS --- */
+        .modal {
+            position: fixed; inset: 0; background: rgba(255,255,255,0.98);
+            z-index: 3000; display: none; opacity: 0; transition: opacity 0.4s ease;
+            overflow-y: auto; pointer-events: none;
+        }
+        .modal.open { display: block; opacity: 1; pointer-events: all; }
+        .modal-header {
+            padding: 1.5rem; border-bottom: 1px solid #f0f0f0;
+            display: flex; justify-content: space-between; align-items: center;
+            position: sticky; top: 0; background: white; z-index: 10;
+        }
+        .modal-close { font-size: 1.5rem; cursor: pointer; padding: 10px; line-height: 0.8; }
+        .modal-content { padding: 2rem 5%; max-width: 800px; margin: 0 auto; min-height: 80vh; display: flex; flex-direction: column; justify-content: center;}
+        
+        .input-group { margin-bottom: 2rem; }
+        .input-group label { display: block; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.5rem; color: #888; }
+        .main-input {
+            width: 100%; padding: 10px 0; border: none; border-bottom: 1px solid #ddd;
+            font-family: var(--font-serif); font-size: 1.5rem; outline: none; transition: 0.3s; background: transparent;
+        }
+        .main-input:focus { border-bottom-color: var(--text-black); }
+
+        /* --- RESPONSIVE MEDIA QUERIES --- */
+        @media (max-width: 768px) {
+            .nav-left, .nav-right { display: none; } 
+            .mobile-menu-btn { display: block; }
+            .nav-center { position: static; transform: none; }
+            .nav-container { justify-content: space-between; }
+
+            .hero-title { font-size: 2.8rem; } /* Titre plus petit sur mobile */
+            .hero-subtitle { font-size: 0.75rem; letter-spacing: 2px; } /* Espacement réduit */
+            
+            .editorial { padding: 4rem 5%; margin-top: -5vh; }
+            .editorial h2 { font-size: 2rem; }
+            
+            .teaser { padding: 4rem 5%; }
+            .circle-preview { width: 220px; height: 220px; } /* Cercle plus petit */
+            
+            .modal-content { padding: 1.5rem 5%; min-height: 70vh; }
+            .main-input { font-size: 1.2rem; }
+        }
+
+        @media (max-width: 380px) {
+            .hero-title { font-size: 2.2rem; }
+            .circle-preview { width: 180px; height: 180px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVIGATION -->
+    <nav>
+        <div class="nav-container">
+            <!-- Liens Desktop -->
+            <div class="nav-left">
+                <a href="index.html" class="nav-link">Accueil</a>
+                <a href="boutique.html" class="nav-link">Femme</a>
+            </div>
+
+            <!-- Logo -->
+            <div class="nav-center">
+                <a href="index.html" class="logo">
+                    <!-- Fallback image -->
+                    <img src="IMG_3570.PNG" onerror="this.src='https://placehold.co/150x50/111/FFF?text=OLORO&font=playfair'" alt="Logo Oloro">
+                </a>
+            </div>
+
+            <!-- Icônes Droite -->
+            <div class="nav-right">
+                <a href="boutique.html" class="nav-link">Homme</a>
+                
+                <button class="icon-btn" onclick="openSearch()" aria-label="Recherche">
+                    <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                </button>
+                
+                <button class="icon-btn mobile-menu-btn" onclick="toggleMobileMenu()" aria-label="Menu">
+                    <svg viewBox="0 0 24 24"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- MENU MOBILE OVERLAY -->
+    <div id="mobile-menu-overlay">
+        <button class="mobile-close-btn" onclick="toggleMobileMenu()">✕</button>
+        <a href="index.html" class="mobile-nav-link" onclick="toggleMobileMenu()">Accueil</a>
+        <a href="boutique.html" class="mobile-nav-link" onclick="toggleMobileMenu()">Collection Femme</a>
+        <a href="boutique.html" class="mobile-nav-link" onclick="toggleMobileMenu()">Collection Homme</a>
+        <a href="#" onclick="openSearch(); toggleMobileMenu()" class="mobile-nav-link">Recherche</a>
+    </div>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">L'Élégance<br>Estivale</h1>
+            <p class="hero-subtitle">Sandales Artisanales & Design Contemporain</p>
+            <a href="boutique.html" class="hero-btn">Découvrir la Collection</a>
+        </div>
+    </section>
+
+    <!-- TEXTE ÉDITORIAL -->
+    <section class="editorial">
+        <h2>L'Art de la Marche</h2>
+        <p>Inspirée par les dunes dorées du désert et les eaux cristallines, notre nouvelle collection incarne l'essence même du luxe détendu.</p>
+    </section>
+
+    <!-- SECTION PRÉSENTATION -->
+    <section class="teaser" id="collection">
+        <div class="circle-preview">
+            <img src="IMG_3576.PNG" onerror="this.src='https://picsum.photos/seed/gold/400/400'" alt="Sandale Gold">
+        </div>
+        <h3>Nouvelle Collection</h3>
+        <p>Découvrez nos modèles signatures disponibles dès maintenant dans notre boutique en ligne.</p>
+        <a href="boutique.html" class="shop-link">Voir les Articles</a>
+    </section>
+
+    <!-- FOOTER -->
+    <footer><p>&copy; 2026 OLORO. Tous droits réservés.</p></footer>
+
+    <!-- MODAL RECHERCHE -->
+    <div id="search-modal" class="modal">
+        <div class="modal-header">
+            <h3>Recherche</h3>
+            <span class="modal-close" onclick="closeSearch()">✕</span>
+        </div>
+        <div class="modal-content">
+            <div class="input-group">
+                <input type="text" class="main-input" placeholder="Rechercher un modèle..." autofocus>
+            </div>
+            <p style="text-align:center; color:#999; margin-top:1rem; font-size:0.9rem;">
+                Accédez à la boutique pour utiliser les filtres avancés.
+            </p>
+            <div style="text-align:center; margin-top:3rem;">
+                <a href="boutique.html" style="border-bottom:1px solid #111; padding-bottom:5px;">Aller à la boutique</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL COMPTE (Ajouté pour compléter la fonctionnalité) -->
+    <div id="account-modal" class="modal">
+        <div class="modal-header">
+            <h3>Mon Compte</h3>
+            <span class="modal-close" onclick="closeAccount()">✕</span>
+        </div>
+        <div class="modal-content">
+            <h2 style="font-family:var(--font-serif); margin-bottom:2rem; text-align:center;">Bienvenue</h2>
+            <div class="input-group">
+                <label>Email</label>
+                <input type="email" class="main-input" placeholder="votre@email.com">
+            </div>
+            <div class="input-group">
+                <label>Mot de passe</label>
+                <input type="password" class="main-input" placeholder="••••••••">
+            </div>
+            <button style="width:100%; padding:1.2rem; background:#111; color:white; text-transform:uppercase; letter-spacing:2px; margin-top:1rem;">Connexion</button>
+            <p style="text-align:center; margin-top:2rem; color:#666; font-size:0.9rem;">
+                Pas encore de compte ? <a href="#" style="text-decoration:underline;">S'inscrire</a>
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // --- GESTION MOBILE MENU ---
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu-overlay');
+            menu.classList.toggle('active');
+            
+            // Gestion du scroll body
+            if(menu.classList.contains('active')) {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        // --- GESTION MODALS ---
+        function openSearch() {
+            document.getElementById('search-modal').classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeSearch() {
+            document.getElementById('search-modal').classList.remove('open');
+            document.body.style.overflow = 'auto';
+        }
+        
+        // Ajout de la fonction openAccount pour le bouton (si ajouté) ou usage futur
+        function openAccount() {
+            document.getElementById('account-modal').classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeAccount() {
+            document.getElementById('account-modal').classList.remove('open');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Fermer modals en cliquant sur le fond blanc (facultatif, ici tout le fond est blanc, donc on clique souvent sur la croix)
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal') && event.target.classList.contains('open')) {
+                event.target.classList.remove('open');
+                document.body.style.overflow = 'auto';
+            }
+        }
+    </script>
+</body>
+</html>
